@@ -1,0 +1,185 @@
+<style>
+.leftcolumn {
+    float: left;
+    width: 50%;
+}
+.row {
+    width: 100%;
+}
+ .collection_images {
+    width: 100%;
+}
+  .collection_images>img {
+    width: 50%;
+}
+</style>
+{% assign first_manufacturer_title = section.settings.Manucatuer_first_title_id | downcase | strip | remove:" " %}
+{% assign secondt_manufacturer_title= section.settings.Manucatuer_second_title_id | downcase | strip | remove:" " %}
+
+{% assign Manucatuer_first_main_logo_id  = section.settings.Manucatuer_first_main_logo_id%}
+{% assign Manucatuer_second_main_logo_id  = section.settings.Manucatuer_second_main_logo_id%}
+ <!-- {% if Manucatuer_first_main_logo_id!= blank %}
+    <img src="{{Manucatuer_first_main_logo_id | img_url: '100x100' }}">
+    {%endif%}
+-->
+{% if first_manufacturer_title != blank %}
+<div id="{{first_manufacturer_title}}"  class="row">
+ {% if Manucatuer_first_main_logo_id!= blank %}
+  <div class="images"><img src="{{Manucatuer_first_main_logo_id | img_url: '100x100' }}"></div>
+ {%endif%}
+ {% for block in section.blocks %}
+ {% if block.type == 'First_manufacturer_type' %}
+  <div class="leftcolumn">
+    <div class="card">
+      {% if block.settings.Manucatuer_main_logo_id!= blank %}
+      <div class="collection_images">
+            <img src="{{block.settings.Manucatuer_main_logo_id | img_url: '100x100' }}">
+      </div>
+       {% endif %}
+      <h5>First_manufacturer_type</h5>
+      
+    </div>
+  </div>
+  {%endif%}
+  {%endfor%}
+</div>
+{%endif%}
+
+
+{% if secondt_manufacturer_title != blank %}
+<div id="{{secondt_manufacturer_title}}" class="row">
+  {% if Manucatuer_first_main_logo_id!= blank %}
+  <div class="images"><img src="{{Manucatuer_second_main_logo_id | img_url: '100x100' }}"></div>
+  {% endif %}
+  {% for block in section.blocks %}
+  {% if block.type == 'Second_manufacturer_type' %}
+   <div class="leftcolumn">
+    <div class="card">
+       {% if block.settings.Manucatuer_main_logo_id!= blank %}
+      <div class="collection_images">
+            <img src="{{block.settings.Manucatuer_main_logo_id | img_url: '100x100' }}">
+      </div>
+       {% endif %}
+      <h5>Second_manufacturer_type</h5>
+     </div>
+  </div>
+  {%endif%}
+   {%endfor%}
+</div>
+ {%endif%}
+
+{% schema %}
+  {
+    "name": "Manufacturer list",
+    "settings": [
+      {
+        "id": "Manucatuer_first_title_id",
+        "type": "text",
+        "label": "First Manucatuer title",
+        "default": "Title",
+		"info":"Title is mandatory, brand name and manufacturer title should be same"
+      },
+      {
+        "id": "Manucatuer_first_main_logo_id",
+        "type": "image_picker",
+        "label": "Add Main logo below",
+		"info":"Logo is mandatory"
+      },
+	  {
+        "id": "Manucatuer_second_title_id",
+        "type": "text",
+        "label": "Second Manucatuer title",
+        "default": "Title",
+		"info":"Title is mandatory, brand name and manufacturer title should be same"
+      },
+      {
+        "id": "Manucatuer_second_main_logo_id",
+        "type": "image_picker",
+        "label": "Add Main logo below",
+		"info":"Logo is mandatory"
+      },
+	  {
+        "id": "Manucatuer_third_title_id",
+        "type": "text",
+        "label": "Third Manucatuer title",
+        "default": "Title",
+		"info":"Title is mandatory, brand name and manufacturer title should be same"
+      },
+      {
+        "id": "Manucatuer_third_main_logo_id",
+        "type": "image_picker",
+        "label": "Add Main logo below",
+		"info":"Logo is mandatory"
+      },
+	 {
+        "id": "Manucatuer_fourth_title_id",
+        "type": "text",
+        "label": "Fourth Manucatuer title",
+        "default": "Title",
+		"info":"Title is mandatory, brand name and manufacturer title should be same"
+      },
+      {
+        "id": "Manucatuer_fourth_main_logo_id",
+        "type": "image_picker",
+        "label": "Add Main logo below",
+		"info":"Logo is mandatory"
+      },
+	 {
+        "id": "Manucatuer_fifth_title_id",
+        "type": "text",
+        "label": "Fourth Manucatuer title",
+        "default": "Title",
+		"info":"Title is mandatory, brand name and manufacturer title should be same"
+      },
+      {
+        "id": "Manucatuer_fifth_main_logo_id",
+        "type": "image_picker",
+        "label": "Add Main logo below",
+		"info":"Logo is mandatory"
+      }
+    ],
+
+	"blocks": [
+       {
+        "type": "First_manufacturer_type",
+        "name": "First Manufactuere",
+        "settings": [
+          	{
+            "id": "Manucatuer_main_logo_id",
+            "type": "image_picker",
+            "label": "Add collection images below"
+          	},
+			{
+             "type": "collection",
+             "id": "collection_id",
+             "label": "collection",
+             "info": "collection"
+            }
+         	]
+	   },
+	   {
+        "type": "Second_manufacturer_type",
+        "name": "Second Manufactuere",
+        "settings": [
+          	{
+            "id": "Manucatuer_main_logo_id",
+            "type": "image_picker",
+            "label": "Add collection images below"
+          	},
+			{
+             "type": "collection",
+             "id": "collection_id",
+             "label": "collection",
+             "info": "collection"
+            }
+           ]
+	   }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
