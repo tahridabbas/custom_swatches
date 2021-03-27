@@ -1,0 +1,37 @@
+/*=========find that function and you should change on theme.js file===========*/
+/**
+     * Update hidden master select of variant change
+     *
+     * @param  {variant} variant - Currently selected variant
+     */
+    _updateMasterSelect: function(variant) {
+      var masterSelect = this.container.querySelector(this.originalSelectorId);
+  console.log(masterSelect);
+      if (!masterSelect) return;
+      masterSelect.value = variant.id;
+      
+          var v = masterSelect.options[masterSelect.selectedIndex].getAttribute('varient_invent_qty');
+
+      console.log(v );
+    }
+/*========end========*/
+
+
+/*==========go to product-template.liquid file and do some changes in hidden selected options as adding new attribute where quantity would be pass=========*/
+<script>
+  var inv_qty = {};
+  {% for var in product.variants %}
+  inv_qty[{{ var.id }}] = {{ var.inventory_quantity | default: 0 }};
+  {% endfor %}
+  console.log(inv_qty);
+</script>
+            <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+              {% for variant in product.variants %}
+                <option varient_invent_qty='{{ variant.inventory_quantity | default: 0 }}' value="{{ variant.id }}"
+                  {%- if variant == current_variant %} selected="selected" {%- endif -%}
+                >
+                  {{ variant.title }}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                </option>
+              {% endfor %}
+            </select>
+/*========================ending===========================*/
