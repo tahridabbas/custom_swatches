@@ -1,0 +1,93 @@
+//=======================================open theme.js file==============================================//
+1=> find this line of code at line number 8087 ,_initMobileBreakpoint: function() {} ,this function is used for mobile thumbnail initialization so if the thumbnail slider
+is not have initialized then you should initialize it with the help of this below code so you should overwrite the 8087 line of code with it.
+   _initMobileBreakpoint: function() {
+     
+      if (this.mqlSmall.matches) {
+         alert('mobile')
+        // initialize thumbnail slider on mobile if more than four thumbnails
+        if (
+          this.container.querySelectorAll(this.selectors.productThumbImages)
+            .length > 4
+        ) {
+          this._initThumbnailSlider();
+        }
+
+        // destroy image zooming if enabled
+        if (this.settings.zoomEnabled) {
+          this.imageZoomWrapper.forEach(
+            function(element, index) {
+              this._destroyZoom(index);
+            }.bind(this)
+          );
+        }
+
+        this.settings.bpSmall = true;
+      } else {
+        if (this.settings.sliderActive) {
+          this._destroyThumbnailSlider();
+        }
+
+        this.settings.bpSmall = false;
+      }
+    }
+2=> find this line of code at line number 8118 ,_initDesktopBreakpoint: function() {} ,this function is used for desktop thumbnail initialization so if the thumbnail slider
+is not have initialized then you should initialize it with the help of this below code so you should overwrite the 8118 line of code with it.
+
+ _initDesktopBreakpoint: function() {
+       
+      if (this.mqlMediumUp.matches && this.settings.zoomEnabled) {
+       if (
+          this.container.querySelectorAll(this.selectors.productThumbImages)
+            .length > 4
+        ) {
+          this._initThumbnailSlider();
+        }
+        this.imageZoomWrapper.forEach(
+          function(element, index) {
+            this._enableZoom(element, index);
+          }.bind(this)
+        );
+      }else {
+        if (this.settings.sliderActive) {
+          this._destroyThumbnailSlider();
+        }
+
+        this.settings.bpSmall = false;
+      }
+    }
+
+<=======================================================open theme.css file================================================================> 
+3=> and find the line of code 3094 , this is the css code
+/*   .product-single__thumbnails-slider-track {
+    display: flex;
+    flex-wrap: wrap; }  */
+ so comment this code in your file.
+ 
+ 4=> some line of css code you should use for desktop which is below so add this css under theme.css file so what css code you should add which i am going to mention below.
+ .slider-active .product-single__thumbnails {
+    display: block !important;;
+    margin: 0 auto !important;;
+    max-width: 75% !important;;
+    overflow: hidden !important;;
+   
+}
+ 
+ .product-single__thumbnails-item--small {
+    flex: 0 0 10% !important;
+}
+
+.product-single__thumbnails-item-slide {
+    display: block !important;;
+    float: left !important;;
+    height: 100% !important;;
+    min-height: 1px !important;;
+    padding: 5px 2.5px !important;;
+}
+==============================================================open product-template.liquid file=================================================>
+
+5) open product-template file and remove the some class from next button and previous buttons class name is "medium-up--hide". 
+
+
+
+
