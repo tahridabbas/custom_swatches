@@ -161,3 +161,8 @@ function unavailability(){
 });   
   
 </script>
+<style>
+.unavailable{
+display:none;
+}
+</style>
