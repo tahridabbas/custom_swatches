@@ -1,0 +1,163 @@
+ <script>
+jQuery(function() {
+  jQuery('.swatch :radio').change(function(event) {
+    var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+    var optionValue = jQuery(this).val();
+    var sortBySelect = document.querySelector('#SingleOptionSelector-'+optionIndex); 
+    sortBySelect.value = optionValue; 
+    sortBySelect.dispatchEvent(new Event("change"));
+     unavailability();
+    
+  });
+ 
+function unavailability(){  
+  var productJson = {{product | json}}
+  const variants  = productJson.variants;  
+  var possibles   = [];
+  var possibles2  = [];
+  var counter=0;
+  var option1='';
+  var option2='';
+  if(document.getElementById("SingleOptionSelector-1")){
+  var option1   = document.getElementById("SingleOptionSelector-1").options;
+  }
+  if(document.getElementById("SingleOptionSelector-2")){
+  var option2   = document.getElementById("SingleOptionSelector-2").options;
+  }
+  console.log(option1.length)
+  console.log(option2.length)
+  var one ='',two='',three='';
+  $('.single-option-selector').each(function() {
+   alert(counter);
+    if(counter == 0){
+      one =  $(this).val();
+      alert(one);
+      variants.forEach((variant) => {
+        if (variant.options.includes($(this).val())) {
+          possibles.push(variant.options)
+        }
+      })
+//        console.log('counter-1');
+//       console.log(possibles);
+//       console.log('counter-1');
+    }else if(counter == 1){
+      two =  $(this).val();
+      alert(two);
+      for (let option of option1) {
+         const value = option.value;
+         console.log(value);
+         let flag = false;
+         possibles.forEach((possible) => {
+            if (possible.includes(value)) {
+                flag = true;
+            }
+          }) 
+          if (flag === false) {
+            option.removeAttribute('selected');
+            option.setAttribute('disabled', 'disabled');
+          } else {
+            option.removeAttribute('disabled');
+          }
+      }
+       $("input[name='option-1']").each(function(){
+         let flag = false;
+         possibles.forEach((possible) => {
+           if (possible.includes($(this).val())) {
+            flag = true;
+          }
+        })
+        if (flag === false) {
+         $(this).closest('.swatch-element').attr('disabled', 'disabled');
+         $(this).closest('.swatch-element').addClass('unavailable');
+        } else {
+         $(this).closest('.swatch-element').removeAttr('disabled', 'disabled');;
+         $(this).closest('.swatch-element').removeClass('unavailable');
+        }
+      })
+      
+      
+    }else if(counter == 2){
+      three =$(this).val();
+      alert(three);
+      possibles.forEach((possible) => {
+        if (possible.includes(one) ) {
+          if (possible.includes(two)){
+            possibles2.push(possible)
+          }
+        }
+      }) 
+   
+//       alert(one+two);
+      console.log(possibles2);
+      console.log(option2);
+      for (let option of option2) {
+        let   flag  = false;
+        const value = option.value;
+        possibles2.forEach((possible) => {
+          if (possible.includes(value)) {
+              flag = true;
+          }
+        })
+        if(flag === false) {
+          option.removeAttribute('selected');
+          option.setAttribute('disabled', 'disabled');
+        } else {
+          option.removeAttribute('disabled');
+        }
+      }
+      
+      $("input[name='option-2']").each(function(){
+        alert($(this).val());
+        let flag = false;
+        possibles2.forEach((possible) => {
+          if (possible.includes($(this).val())) {
+            flag = true;
+          }
+        })
+        if (flag === false) {
+         $(this).closest('.swatch-element').attr('disabled', 'disabled');
+         $(this).closest('.swatch-element').addClass('unavailable');
+        } else {
+         $(this).closest('.swatch-element').removeAttr('disabled', 'disabled');;
+         $(this).closest('.swatch-element').removeClass('unavailable');
+        }
+      })
+      
+    }
+    
+    counter++;
+  });
+  
+  }
+
+  unavailability();
+  
+  // code for swatches
+//   var productJson = {{product | json}}
+//   const variants = productJson.variants;
+//   var poss1 = [];
+//   var poss2 = [];
+//   var counter=0;
+ // const option1 = document.getElementsByClassName("swatch")[0];
+  //const option2 = document.getElementById("SingleOptionSelector-2").options;
+//   $('.swatch .swatch-element').find("input[type='radio']:checked").each(function() {
+//     if(counter == 0){
+//     alert(counter);
+//        variants.forEach((variant) => {
+//         if (variant.options.includes($(this).val())) {
+//           poss1.push(variant.options)
+//         }
+//       })
+//         console.log('counter-1');
+//         console.log(poss1);
+//     }else if(counter == 1){
+//     alert(counter);
+//     }else if(counter == 2){
+//     alert(counter);
+//     }
+   
+//     counter++;
+//   });
+});   
+  
+</script>
