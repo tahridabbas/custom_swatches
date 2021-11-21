@@ -1,0 +1,21 @@
+
+1) shopify login --store johns-apparel.myshopify.com : it connect to development store
+2  shopify theme pull  : pulls the all themes of that connected stores in selected any specific directories and stores that theme directories.
+3) shopify theme serve : generates the links for the developments or changes in that slected theme.
+
+like:
+Serving .
+
+Please open this URL in your browser:
+http://127.0.0.1:9292
+
+Customize this theme in the Online Store Editor:
+https://tastarts.myshopify123.com/admin/themes/127918932155/edito
+
+Share this theme preview:
+https://tastarts.myshopify123.com/?preview_theme_id=127918932155
+
+4) after storing theme files locally, press ctrl+c button to stop connectivity and after do changes in any theme files and run below command to 
+push that changes to an specific theme.
+
+5) shopify theme push : it will push the locatl theme files to the online store's theme.
