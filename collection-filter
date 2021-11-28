@@ -1,0 +1,20 @@
+collection filter:
+
+<ul class="clearfix filters">
+    {% for blocks in section.blocks %}
+    {% assign tags = blocks.settings.filter_tags | split: ',' %}
+     <label>{{blocks.settings.filter_heading}}</label>
+     {% for tag in tags %}
+      {% if current_tags contains tag %}
+       <li class="active">
+        {{ tag | link_to_remove_tag: tag }}
+       </li>
+       {% else %}
+       <li>
+         {{ tag | link_to_add_tag: tag }}
+       </li>
+      {%endif%}
+     {% endfor %}
+    {% endfor %}
+</ul>
+<====================processing=================================?>
