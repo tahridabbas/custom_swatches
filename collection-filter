@@ -1,20 +1,59 @@
-collection filter:
+NOTE : WITHOUT AJAX FILTER
+====================================================================Liquid Code for filter adding:========================================================================
 
-<ul class="clearfix filters">
-    {% for blocks in section.blocks %}
-    {% assign tags = blocks.settings.filter_tags | split: ',' %}
-     <label>{{blocks.settings.filter_heading}}</label>
-     {% for tag in tags %}
-      {% if current_tags contains tag %}
-       <li class="active">
-        {{ tag | link_to_remove_tag: tag }}
-       </li>
-       {% else %}
-       <li>
-         {{ tag | link_to_add_tag: tag }}
-       </li>
-      {%endif%}
-     {% endfor %}
+<div class="clearfix filter">
+  <p>Browse by tag:</p>
+  <select class="coll-filter">
+    <option value="">All Material</option>
+    {% for tag in collection.all_tags %}
+      {% if tag contains 'Material' %}
+        {% if current_tags contains tag %}
+        <option value="{{ tag | handle }}" selected>{{ tag }}</option>
+        {% else %}
+        <option value="{{ tag | handle }}">{{ tag }}</option>
+        {% endif %}
+      {% endif %}
     {% endfor %}
-</ul>
-<====================processing=================================?>
+  </select>
+
+  <select class="coll-filter">
+    <option value="">All Color</option>
+    {% for tag in collection.all_tags %}
+      {% if tag contains 'Color' %}
+        {% if current_tags contains tag %}
+        <option value="{{ tag | handle }}" selected>{{ tag }}</option>
+        {% else %}
+        <option value="{{ tag | handle }}">{{ tag }}</option>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </select>
+</div>
+
+
+============================================================================JQUERY CODE===================================================================================
+
+<script>
+   var collFilters = jQuery('.coll-filter');
+  collFilters.change(function() {
+    var newTags = [];
+    collFilters.each(function() { 
+      if (jQuery(this).val()) {
+        newTags.push(jQuery(this).val());
+      }
+    });
+    if (newTags.length) {
+      var query = newTags.join('+');
+      window.location.href = jQuery('{{ 'tag' | link_to_tag: 'tag' }}').attr('href').replace('tag', query);
+    } 
+    else {
+      {% if collection.handle %}
+      window.location.href = '/collections/{{ collection.handle }}';
+      {% elsif collection.products.first.type == collection.title %}
+      window.location.href = '{{ collection.title | url_for_type }}';
+      {% elsif collection.products.first.vendor == collection.title %}
+      window.location.href = '{{ collection.title | url_for_vendor }}';
+      {% endif %}
+    }
+  });
+</script>
