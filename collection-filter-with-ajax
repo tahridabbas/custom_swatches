@@ -26,7 +26,13 @@
 
 ============================================================================jquery and ajax code========================================================================
 
+
+function pagination__item__current(){
+    return $('.pagination__item--current').attr('aria-label').toLowerCase();
+}
+
 var tag_array = [];
+var pathname  = window.location.pathname;
 $(document).on('click','.filter_block ul li a',function(e){
     e.preventDefault();
     var tag       = $(this).text().toLowerCase();
@@ -64,11 +70,13 @@ $(document).on('click','.filter_block ul li a',function(e){
      console.log(tag_array);
      console.log(optionFlag);
      console.log(tag_array.join('+'))
+
+     var query = pagination__item__current().split(' ')[1];
     
      if(tag_array.length == 0){
-       window.history.replaceState('Object', 'Title', '/collections/frontpage/'); 
+       window.history.replaceState('Object', 'Title', pathname); 
     }else{
-        window.history.replaceState('Object', 'Title', tag_array.join('+'));
+        window.history.replaceState('Object', 'Title', pathname+tag_array.join('+')+'?page='+query);
     }
   
 
@@ -97,6 +105,9 @@ $(document).on('click','.filter_block ul li a',function(e){
 			 })
 	
     })
+
+
+  
 
 ======================================================================schema parts===================================================================================
  "max_blocks": 3,
