@@ -98,5 +98,24 @@ $(document).on('click','.filter_block ul li a',function(e){
 	
     })
 
-
+======================================================================schema parts===================================================================================
+ "max_blocks": 3,
+  "blocks": [
+     {
+       "name": "Filter tags",
+       "type": "filter_tag",
+       "settings": [
+         {
+           "type": "text",
+           "id": "filter_heading",
+           "label": "Heading"
+         },
+          {
+           "type": "textarea",
+           "id": "filter_tags",
+           "label": "Tags"
+         }
+       ]
+     }
+  ]
   
