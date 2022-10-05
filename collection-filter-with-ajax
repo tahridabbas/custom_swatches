@@ -1,0 +1,102 @@
+=========================================================================liquid code=====================================================================================
+<div class="CustomCollectionFilterWrapper">
+    {% for block in section.blocks %}  
+    {% case block.type %}
+       {% when 'filter_tag' %}  
+     {% assign heading = block.settings.filter_heading %}
+     {% assign tags = block.settings.filter_tags | split:","%}
+     
+      <div class="filter_block">
+      <H1>{{ heading }}</H1>
+       <ul>
+         {% for tag in tags %} 
+         {% assign downcasetag =  tag  | downcase %}
+          {% if current_tags contains downcasetag %}
+          <li class="active">{{ downcasetag | link_to_remove_tag:downcasetag }}</li>
+         {% else %}
+         <li>{{ tag | link_to_add_tag:tag}}</li>
+           {% endif %}
+         {% endfor %}
+       </ul>
+      </div>
+   {% endcase %} 
+  {% endfor %}
+
+</div>
+
+============================================================================jquery and ajax code========================================================================
+
+var tag_array = [];
+$(document).on('click','.filter_block ul li a',function(e){
+    e.preventDefault();
+    var tag       = $(this).text().toLowerCase();
+    var tag_url   = '';
+    var optionFlag = false;
+	 if($(this).closest('li').hasClass('active')){
+        $(this).closest('li').removeClass('active')
+    }else{
+        $(this).closest('li').addClass('active');
+    }
+   // console.log('tag_array_length : '+tag_array.length);
+    if(tag_array.length == 0){
+        tag_array.push(tag);
+         console.log('0');
+    }else{
+        console.log('1');  
+            
+            tag_array.forEach(function (item, index) {
+              if (item == tag) {
+                  optionFlag = true;
+                  console.log('match :'+index);
+                  tag_array.splice(index,1);
+                  
+              }
+           
+            })
+            if(optionFlag ==  false){
+                tag_array.push(tag);
+            }
+        
+       
+    }
+ 
+    
+     console.log(tag_array);
+     console.log(optionFlag);
+     console.log(tag_array.join('+'))
+    
+     if(tag_array.length == 0){
+       window.history.replaceState('Object', 'Title', '/collections/frontpage/'); 
+    }else{
+        window.history.replaceState('Object', 'Title', tag_array.join('+'));
+    }
+  
+
+	   		 $.ajax({
+             url: '/collections/frontpage/'+tag_array.join('+'),
+             type:'GET',
+             success: function(data){
+			            var link_array=[]
+                   $(data).find('.filter_block').find('ul').find('li').each(function(){
+                    var filter_tag_url = $(this).find('a').attr('href').toLowerCase();
+                    var filter_tag_text = $(this).find('a').text().toLowerCase();
+                    link_array.push(filter_tag_url+'*'+filter_tag_text);
+                    //console.log(filter_tag_url);
+                    
+                    });
+                    link_array.forEach(function (item, index) {
+                        var last = item.split('*')[1]
+                         $('.filter_block').find('ul').find('li').each(function(){
+                             if($(this).find('a').text().toLowerCase() == last){
+                                 $(this).find('a').attr('href',item.split('*')[0]);
+                             }
+                         })
+                    
+                    })
+			 }
+			 })
+	
+    })
+
+
+  
